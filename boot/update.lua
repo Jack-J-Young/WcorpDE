@@ -46,6 +46,7 @@ local function downloadRepositoryFiles(repoUrl, localDir)
                 print("fileName:", fileName)
                 print("fileUrl:", fileUrl)
                 print("localFilePath:", localFilePath)
+                print("fileData.path:", fileData.path) -- Added this line
 
                 if fileType == "file" then
                     downloadFile(fileUrl, localFilePath)
