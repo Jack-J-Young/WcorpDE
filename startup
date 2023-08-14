@@ -1,9 +1,29 @@
 local updatePath = "/boot/update.lua"
-local onstartPath = "/boot/onstart.lua"
+local updateTempPath = "/boot/update_temp.lua"
+local ocstartPath = "/boot/onstart.lua"
+
+-- Function to copy the contents of one file to another
+local function copyFile(sourcePath, destinationPath)
+    local sourceFile = fs.open(sourcePath, "r")
+    local destinationFile = fs.open(destinationPath, "w")
+
+    if sourceFile and destinationFile then
+        local content = sourceFile.readAll()
+        destinationFile.write(content)
+
+        sourceFile.close()
+        destinationFile.close()
+
+        print("Copied " .. sourcePath .. " to " .. destinationPath)
+    else
+        print("Failed to copy " .. sourcePath .. " to " .. destinationPath)
+    end
+end
 
 -- Run the update script
 if fs.exists(updatePath) then
-    shell.run(updatePath)
+    copyFile(updatePath, updateTempPath)
+    shell.run(updateTempPath)
 else
     print(updatePath .. " not found.")
 end
