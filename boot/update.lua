@@ -8,6 +8,24 @@ if not http then
     return
 end
 
+-- Function to copy the contents of one file to another using force write
+local function copyFileForce(sourcePath, destinationPath)
+    local sourceFile = fs.open(sourcePath, "r")
+    local destinationFile = fs.open(destinationPath, "a") -- Use "a" mode for force write
+
+    if sourceFile and destinationFile then
+        local content = sourceFile.readAll()
+        destinationFile.write(content)
+
+        sourceFile.close()
+        destinationFile.close()
+
+        print("Forced copied " .. sourcePath .. " to " .. destinationPath)
+    else
+        print("Failed to force copy " .. sourcePath .. " to " .. destinationPath)
+    end
+end
+
 -- Function to download a file from a URL
 local function downloadFile(url, path)
     print("Downloading file from " .. url .. " to " .. path)
