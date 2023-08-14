@@ -42,12 +42,6 @@ local function downloadRepositoryFiles(repoUrl, localDir)
                 local fileUrl = fileData.download_url
                 local localFilePath = fs.combine(localDir, fileName)
 
-                print("fileType:", fileType)
-                print("fileName:", fileName)
-                print("fileUrl:", fileUrl)
-                print("localFilePath:", localFilePath)
-                print("fileData.path:", fileData.path) -- Added this line
-
                 if fileType == "file" then
                     downloadFile(fileUrl, localFilePath)
                 elseif fileType == "dir" then
