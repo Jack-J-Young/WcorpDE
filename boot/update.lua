@@ -1,8 +1,16 @@
-local githubRepoUrl = "https://api.github.com/repos/Jack-J-Young/WcorpDE/contents/"
-local localDir = "/"
+-- Define the GitHub repository URL and local directory
+local githubRepoUrl = "https://api.github.com/repos/Jack-J-Young/WcorpDE/contents/"  -- Replace with the repository URL
+local localDir = "/"  -- Replace with the desired local directory
+
+-- Load the http API
+if not http then
+    print("The http API is not available.")
+    return
+end
 
 -- Function to download a file from a URL
 local function downloadFile(url, path)
+    print("Downloading file from " .. url .. " to " .. path)
     local response = http.get(url)
     if response then
         local content = response.readAll()
@@ -20,6 +28,7 @@ end
 
 -- Function to download repository files recursively
 local function downloadRepositoryFiles(repoUrl, localDir)
+    print("Fetching repository contents from " .. repoUrl)
     local response = http.get(repoUrl)
     if response then
         local content = response.readAll()
@@ -36,6 +45,7 @@ local function downloadRepositoryFiles(repoUrl, localDir)
                 if fileType == "file" then
                     downloadFile(fileUrl, localFilePath)
                 elseif fileType == "dir" then
+                    print("Creating directory: " .. localFilePath)
                     fs.makeDir(localFilePath)
                     downloadRepositoryFiles(fileUrl, localFilePath)
                 end
@@ -48,7 +58,15 @@ local function downloadRepositoryFiles(repoUrl, localDir)
     end
 end
 
--- Download the repository files
-print("Downloading repository files from GitHub...")
+-- Installation process
+print("Installing repository from GitHub...")
+
+-- Create the local directory if it doesn't exist
+if not fs.exists(localDir) then
+    fs.makeDir(localDir)
+end
+
+-- Download and install repository files
 downloadRepositoryFiles(githubRepoUrl, localDir)
-print("Repository files downloaded to root.")
+
+print("Installation completed.")
