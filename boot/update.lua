@@ -20,7 +20,7 @@ local function downloadRepositoryFiles(repoUrl, localDir)
         local contents = response.readAll()
         response.close()
         local fileList = textutils.unserializeJSON(contents)
-        if fileList and type(fileList) == "table" then
+        if fileList then
             for _, fileData in ipairs(fileList) do
                 local fileType = fileData.type
                 local fileName = fileData.name
@@ -33,6 +33,8 @@ local function downloadRepositoryFiles(repoUrl, localDir)
                     downloadRepositoryFiles(fileUrl, localFilePath)
                 end
             end
+        else
+            print("Failed to parse repository contents JSON.")
         end
     else
         print("Failed to fetch repository contents from " .. repoUrl)
