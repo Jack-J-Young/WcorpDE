@@ -52,7 +52,8 @@ local function downloadRepositoryFiles(repoUrl, localDir)
                 elseif fileType == "dir" then
                     print("Creating directory: " .. localFilePath)
                     fs.makeDir(localFilePath)
-                    downloadRepositoryFiles(fileUrl, localFilePath)
+                    local subRepoUrl = githubRepoUrl .. fileData.path .. "/"
+                    downloadRepositoryFiles(subRepoUrl, localFilePath)
                 end
             end
         else
