@@ -1,0 +1,16 @@
+local updatePath = "/boot/update.lua"
+local onstartPath = "/boot/onstart.lua"
+
+-- Run the update script
+if fs.exists(updatePath) then
+    shell.run(updatePath)
+else
+    print(updatePath .. " not found.")
+end
+
+-- Run the onstart script
+if fs.exists(onstartPath) then
+    shell.run(onstartPath)
+else
+    print(onstartPath .. " not found.")
+end
