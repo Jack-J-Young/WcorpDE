@@ -1,7 +1,9 @@
 local updateUrl = "https://raw.githubusercontent.com/Jack-J-Young/WcorpDE/master/boot/update.lua"
 local updatePath = "/boot/update.lua"
+local onstartPath = "/boot/onstart.lua"
 local startupPath = "/boot/startup"
 local updateScriptLine = 'shell.run("/boot/update.lua")'
+local onstartScriptLine = 'shell.run("/boot/onstart.lua")'
 
 -- Delete existing update script
 if fs.exists(updatePath) then
@@ -31,15 +33,15 @@ if fs.exists(startupPath) then
     file.close()
 end
 
--- Add the update script line to the startup content
-local newContent = existingContent .. "\n" .. updateScriptLine
+-- Add the update and onstart script lines to the startup content
+local newContent = existingContent .. "\n" .. updateScriptLine .. "\n" .. onstartScriptLine
 
 -- Write the updated content back to the startup file
 local file = fs.open(startupPath, "w")
 file.write(newContent)
 file.close()
 
-print("Added update script to startup.")
+print("Added update and onstart scripts to startup.")
 
 -- Run the downloaded update script
 shell.run(updatePath)
