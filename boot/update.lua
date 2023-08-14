@@ -42,12 +42,17 @@ local function downloadRepositoryFiles(repoUrl, localDir)
                 local fileUrl = fileData.download_url
                 local localFilePath = fs.combine(localDir, fileName)
 
+                print("fileType:", fileType)
+                print("fileName:", fileName)
+                print("fileUrl:", fileUrl)
+                print("localFilePath:", localFilePath)
+
                 if fileType == "file" then
-                    downloadFile(fileUrl, localFilePath)
+                    downloadFile(githubRepoUrl .. fileData.path, localFilePath)
                 elseif fileType == "dir" then
                     print("Creating directory: " .. localFilePath)
                     fs.makeDir(localFilePath)
-                    downloadRepositoryFiles(fileUrl, localFilePath)
+                    downloadRepositoryFiles(githubRepoUrl .. fileData.path, localFilePath)
                 end
             end
         else
