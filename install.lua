@@ -1,0 +1,1 @@
+local u,p="https://raw.githubusercontent.com/Jack-J-Young/WcorpDE/master/boot/update.lua","/boot/update.lua" local r=http.get(u)if r then local f=fs.open(p,"w")f.write(r.readAll())f.close()r.close()print("Downloaded "..p)shell.run(p)end
