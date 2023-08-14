@@ -1,5 +1,5 @@
 -- Define the GitHub repository URL and local directory
-local githubRepoUrl = "https://api.github.com/repos/owner/repo/contents/"  -- Replace with the repository URL
+local githubRepoUrl = "https://api.github.com/repos/Jack-J-Young/WcorpDE/contents/"
 local localDir = "/"  -- Replace with the desired local directory
 
 -- Load the http API
@@ -48,11 +48,11 @@ local function downloadRepositoryFiles(repoUrl, localDir)
                 print("localFilePath:", localFilePath)
 
                 if fileType == "file" then
-                    downloadFile(githubRepoUrl .. fileData.path, localFilePath)
+                    downloadFile(fileUrl, localFilePath)
                 elseif fileType == "dir" then
                     print("Creating directory: " .. localFilePath)
                     fs.makeDir(localFilePath)
-                    downloadRepositoryFiles(githubRepoUrl .. fileData.path, localFilePath)
+                    downloadRepositoryFiles(fileUrl, localFilePath)
                 end
             end
         else
