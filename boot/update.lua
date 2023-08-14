@@ -1,6 +1,6 @@
 -- Define the GitHub repository URL and local directory
-local githubRepoUrl = "https://api.github.com/repos/Jack-J-Young/WcorpDE/contents/"  -- Replace with the repository URL
-local localDir = "/"  -- Replace with the desired local directory
+local githubRepoUrl = "https://api.github.com/repos/owner/repo/contents/"  -- Replace with the repository URL
+local localDir = "/installation/"  -- Replace with the desired local directory
 
 -- Load the http API
 if not http then
