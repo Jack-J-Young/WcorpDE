@@ -14,3 +14,5 @@ if fs.exists(onstartPath) then
 else
     print(onstartPath .. " not found.")
 end
+
+print("test")
