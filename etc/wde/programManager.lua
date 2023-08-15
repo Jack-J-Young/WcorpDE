@@ -1,8 +1,10 @@
 ProgramManager = {}
+ProgramManager.__index = ProgramManager
 
-function ProgramManager:new()
+function ProgramManager:new(monitor)
     local self = setmetatable({}, ProgramManager)
     self.programs = {}
+    self.monitor = monitor  -- Set the default monitor object
     return self
 end
 

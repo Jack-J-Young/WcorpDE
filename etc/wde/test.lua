@@ -3,6 +3,7 @@ package.path = package.path .. ";../?.lua"
 local Program = require("wizsys.program")
 local Graphical = require("graphical")
 local ProgramManager = require("programManager")
+local TestApp = require("testapp")
 
 -- Define your program functions
 function onRunProgram()
@@ -16,15 +17,18 @@ end
 
 -- Create instances of Program and Graphical
 local program = Program:new(onRunProgram)
-local graphical = Graphical:new(onRunProgram, onDrawGraphical)
+--local graphical = Graphical:new(onRunProgram, onDrawGraphical)
 
 -- Create an instance of ProgramManager and add programs to it
-local programManager = ProgramManager:new()
-programManager:addProgram(program)
-programManager:addProgram(graphical)
+local defaultMonitor = peripheral.find("monitor")
+local programManager = ProgramManager:new(defaultMonitor)
+programManager:addProgram(TestApp:new())
+--programManager:addProgram(graphical)
 
 -- Run the ProgramManager in a loop
-while true do
+
+for i = 1, 20 do
     programManager:run()
     sleep(1)  -- Adjust the delay as needed
 end
+

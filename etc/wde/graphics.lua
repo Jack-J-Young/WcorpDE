@@ -19,7 +19,7 @@ local colorMap = {
 
 local graphics = {}
 
-function graphics.writePixelsToMonitor(monitor, pixelData)
+function graphics:writePixelsToMonitor(monitor, pixelData)
     local width, height = monitor.getSize()
     local yPos = 1
 

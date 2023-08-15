@@ -1,7 +1,7 @@
 Program = {}
 Program.__index = Program
 
-function Program:new(onRun)
+function Program:new()
     local self = setmetatable({}, Program)
     self.onRun = onRun
     return self
