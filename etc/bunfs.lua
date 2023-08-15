@@ -1,41 +1,48 @@
--- Load the http API
-if not http then
-    print("The http API is not available.")
-    return
-end
-
--- Define the TypeScript API URL
-local apiBaseUrl = "http://localhost:3000"; -- Replace with the actual API base URL
-
--- Function to explore the directories and save files
-local function exploreDirectoriesAndSaveFiles(node, currentPath)
-    if not node then
+local function processUrl(url, directory)
+    local fullUrl = url .. directory:gsub("/", "-")
+    print("Processing URL: " .. fullUrl)
+    local response = http.get(fullUrl)
+    if not response then
+        print("Failed to fetch URL: " .. fullUrl)
         return
     end
 
-    for _, childNode in ipairs(node.children or {}) do
-        local newPath = currentPath .. "/" .. childNode.name
-        if childNode.isDirectory then
-            exploreDirectoriesAndSaveFiles(childNode, newPath)
-        elseif string.sub(childNode.name, 1, 1) == "f" then
-            local fileContentResponse = http.get(apiBaseUrl .. newPath)
-            if fileContentResponse then
-                local fileContent = fileContentResponse.readAll()
-                fileContentResponse.close()
+    local content = response.readAll()
+    response.close()
 
-                local file = fs.open(childNode.name, "w")
-                file.write(fileContent)
-                file.close()
+    local lines = {}
+    for line in content:gmatch("[^\r\n]+") do
+        table.insert(lines, line) -- Trim leading/trailing spaces
+    end
 
-                print("Saved file: " .. childNode.name)
-            else
-                print("Failed to fetch file content from " .. newPath)
-            end
+    local firstLine = lines[1]
+    print("First Line:", firstLine)
+
+    if firstLine:sub(1, 1) == "d" then
+        for i = 2, #lines do
+            local nextDirectoryName = lines[i]
+            local nextDirectory = fs.combine(directory, nextDirectoryName)
+            print("Entering directory: " .. nextDirectory)
+            processUrl(url, nextDirectory)
+        end
+    elseif firstLine:sub(1, 1) == "f" then
+        local fileName = firstLine:sub(3):gsub("/", "-")
+        local filePath = fs.combine(directory, fileName)
+        local fileContents = table.concat(lines, "\n", 2)
+        print("File Name:", fileName)
+        print("File Path:", filePath)
+        print("File Contents:", fileContents)
+
+        local file = io.open(filePath, "w")
+        if file then
+            file:write(fileContents)
+            file:close()
+            print("Downloaded file: " .. filePath)
+        else
+            print("Failed to write file: " .. filePath)
         end
     end
 end
 
--- Initialize the exploration from the root
-local rootNode = {}  -- Replace with your actual root node
-local rootPath = ""  -- Replace with your actual root path
-exploreDirectoriesAndSaveFiles(rootNode, rootPath)
+local rootUrl = "http://95.44.132.48:3000/"
+processUrl(rootUrl, "")
