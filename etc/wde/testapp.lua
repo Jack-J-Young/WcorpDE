@@ -1,4 +1,5 @@
 local Graphical = require("graphical")  -- Update the path accordingly
+local UI = require("ui")  -- Import the UI library
 
 local TestApp = setmetatable({}, {
     __index = function(self, key)
@@ -7,10 +8,10 @@ local TestApp = setmetatable({}, {
 })
 
 function TestApp:new()
-    local instance = Graphical:new()
+    local instance = Graphical:new(10, 10)
     setmetatable(instance, { __index = TestApp })
     instance.val = 't'
-    instance.sprite = Sprite:new(10, 10)  -- Initialize sprite with size 10x10
+    --instance.sprite = Sprite:new(10, 10)  -- Initialize sprite with size 10x10
     return instance
 end
 
@@ -27,7 +28,9 @@ end
 
 -- Override the onDraw method
 function TestApp:onDraw()
-    self.sprite:fillWithPixelString("12" .. self.val)
+    UI.fillWithPixelString(self.sprite, "12" .. self.val)
+    UI.addButton(self.sprite, 2, 2, ' Test :) ', 3, 4)
+    --self:addButton(2, 2, ' Test :) ', 1, 2)
     -- You can implement your custom drawing logic here
 end
 

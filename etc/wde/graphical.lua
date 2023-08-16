@@ -2,6 +2,7 @@
 local Program = require("wizsys.program")
 local Sprite = require("sprite")
 local graphicsLib = require("graphics")
+local UI = require("ui")  -- Import the UI library
 
 -- Create a subclass that extends Program
 local Graphical = setmetatable({}, {
@@ -11,14 +12,13 @@ local Graphical = setmetatable({}, {
 })
 
 -- Initialize the sprite variable
-function Graphical:new()
+function Graphical:new(width, height)
     local instance = Program:new()
     setmetatable(instance, { __index = Graphical })
     -- Initialize properties specific to SubClass here
-    instance.sprite = Sprite:new(0, 0)
+    instance.sprite = Sprite:new(width, height)
     return instance
 end
-
 
 -- Override the onDraw method
 function Graphical:onDraw()

@@ -36,8 +36,15 @@ function Sprite:fillWithPixelString(pixelString)
 
     for y = 1, self.height do
         for x = 1, self.width do
-            self.pixels[y][x] = Pixel:new(bgColor, fgColor, char)
+            self:setPixel(y, x, bgColor, fgColor, char)
         end
+    end
+end
+
+function Sprite:addString(x, y, str, bgColor, fgColor)
+    for i = 1, #str do
+        local char = str:sub(i, i)
+        self:setPixel(x + i - 1, y, bgColor, fgColor, char)
     end
 end
 

@@ -29,27 +29,35 @@ function ProgramManager:addProgram(program)
 end
 
 function ProgramManager:run()
-
-
     local monitor = peripheral.find("monitor")
+    local threads = {}  -- Table to store the threads
 
     for a, program in ipairs(self.programs) do
         if type(program.run) == "function" then
-            program:run()
+            local thread = coroutine.create(function()
+                program:run()
+            end)
+            table.insert(threads, thread)
         end
 
-        
-        
         if type(program.onDraw) == "function" then
-            program:onDraw()
-            -- Convert the sprite to an image string
-            local imageString = program.sprite:toImageString()
+            local thread = coroutine.create(function()
+                program:onDraw()
+                -- Convert the sprite to an image string
+                local imageString = program.sprite:toImageString()
 
-            -- Use the graphics library to draw the imageString on the monitor
-            
-            graphicsLib.writePixelsToMonitor({}, monitor, imageString)
+                -- Use the graphics library to draw the imageString on the monitor
+                graphicsLib.writePixelsToMonitor({}, monitor, imageString)
+            end)
+            table.insert(threads, thread)
         end
     end
+
+    -- Resume all the threads
+    for _, thread in ipairs(threads) do
+        coroutine.resume(thread)
+    end
 end
+
 
 return ProgramManager
