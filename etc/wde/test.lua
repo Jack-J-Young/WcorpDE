@@ -20,8 +20,11 @@ local program = Program:new(onRunProgram)
 --local graphical = Graphical:new(onRunProgram, onDrawGraphical)
 
 -- Create an instance of ProgramManager and add programs to it
-local defaultMonitor = peripheral.find("monitor")
-local programManager = ProgramManager:new(defaultMonitor)
+local monitor = peripheral.find("monitor", function(name, object)
+    return object.isRight
+end)
+
+local programManager = ProgramManager:new(monitor)
 programManager:addProgram(TestApp:new())
 --programManager:addProgram(graphical)
 

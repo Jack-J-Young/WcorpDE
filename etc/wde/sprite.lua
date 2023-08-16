@@ -12,7 +12,6 @@ function Sprite:new(width, height)
     for y = 1, height do
         newSprite.pixels[y] = {}
         for x = 1, width do
-            print(colors.black)
             newSprite.pixels[y][x] = Pixel:new(2, 3, " ")
         end
     end

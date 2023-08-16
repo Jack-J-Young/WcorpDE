@@ -2,15 +2,13 @@ Program = {}
 Program.__index = Program
 
 function Program:new()
-    local self = setmetatable({}, Program)
-    self.onRun = onRun
-    return self
+    local instance = {}
+    setmetatable(instance, {__index = self})
+    return instance
 end
 
 function Program:run()
-    if self.onRun then
-        self.onRun()
-    end
+    print('uninp')
 end
 
 return Program

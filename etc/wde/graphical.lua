@@ -10,6 +10,16 @@ local Graphical = setmetatable({}, {
     end
 })
 
+-- Initialize the sprite variable
+function Graphical:new()
+    local instance = Program:new()
+    setmetatable(instance, { __index = Graphical })
+    -- Initialize properties specific to SubClass here
+    instance.sprite = Sprite:new(0, 0)
+    return instance
+end
+
+
 -- Override the onDraw method
 function Graphical:onDraw()
     -- Implement your custom drawing logic here
@@ -20,13 +30,6 @@ function Graphical:onDraw()
             self.sprite:setPixel(x, y, pixelType)
         end
     end
-end
-
--- Initialize the sprite variable
-function Graphical:new()
-    local instance = Program:new()
-    instance.sprite = Sprite:new(0, 0)
-    return setmetatable(instance, { __index = Graphical })
 end
 
 return Graphical
